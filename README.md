@@ -13,7 +13,7 @@ This project is a web-based Tic Tac Toe game built using HTML, CSS, and JavaScri
 
 ## Demo
 
-![Tic Tac Toe Screenshot](C:\Users\sunil\Pictures\Screenshots\Screenshot (133).png)
+![Tic Tac Toe Screenshot](Screenshot.png)
 
 ## Getting Started
 
