@@ -11,7 +11,6 @@ const winning_positions = [
     [1, 4, 7],
     [2, 5, 8]
 ];
-
 let currentplayer;
 let Gamegrid;
 
@@ -20,49 +19,50 @@ function initGame() {
     Gamegrid = ["", "", "", "", "", "", "", "", ""];
     boxes.forEach((box, index) => {
         box.innerText = "";
-        box.style.pointerEvents = "all";
-        box.style.backgroundColor = ""; // Reset background color
+        boxes[index].style.pointerEvents = "all";
     });
-    gameinfo.innerText = `Current Player - ${currentplayer}`;
+    gameinfo.innerText = `Current player - ${currentplayer}`;
 }
 
 initGame();
 
 function handleclick(index) {
-    if (Gamegrid[index] === "") {
+    if (Gamegrid[index] == "") {
         Gamegrid[index] = currentplayer;
         boxes[index].innerText = currentplayer;
-        // Check if game is over
-        if (!checkgameover()) {
-            // Swap turn if game is not over
-            swapturn();
-        }
+        // Swap turn
+        swapturn();
+        // Check if any player won
+        checkgameover();
     }
 }
 
 function swapturn() {
-    currentplayer = currentplayer === "X" ? "O" : "X";
-    gameinfo.innerText = `Current Player - ${currentplayer}`;
+    if (currentplayer == "X") {
+        currentplayer = "O";
+    } else {
+        currentplayer = "X";
+    }
+    gameinfo.innerText = `Current player - ${currentplayer}`;
 }
 
 function checkgameover() {
-    let isGameOver = false;
+    let winner = null;
     winning_positions.forEach((position) => {
         const [a, b, c] = position;
         if (Gamegrid[a] && Gamegrid[a] === Gamegrid[b] && Gamegrid[a] === Gamegrid[c]) {
-            isGameOver = true;
-            boxes[a].style.backgroundColor = boxes[b].style.backgroundColor = boxes[c].style.backgroundColor = 'lightgreen';
-            gameinfo.innerText = `Winner - ${Gamegrid[a]}`;
-            boxes.forEach(box => box.style.pointerEvents = 'none');
+            winner = Gamegrid[a];
         }
     });
-    
-    if (!isGameOver && Gamegrid.every(box => box !== "")) {
-        gameinfo.innerText = 'Draw!';
-        isGameOver = true;
-    }
 
-    return isGameOver;
+    if (winner) {
+        gameinfo.innerText = `Winner - ${winner}`;
+        boxes.forEach((box) => {
+            box.style.pointerEvents = "none";
+        });
+    } else if (!Gamegrid.includes("")) {
+        gameinfo.innerText = "Draw!";
+    }
 }
 
 boxes.forEach((box, index) => {
